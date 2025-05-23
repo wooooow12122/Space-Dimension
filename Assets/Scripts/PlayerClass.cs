@@ -52,13 +52,5 @@ public class PlayerClass : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            FindObjectOfType<MainLogic>()?.GetDamage();
-        }
-    }
 }
  

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class MainLogic : MonoBehaviour
 {
     public int GetHP() => Mathf.Max(hp, 0);
@@ -17,11 +17,13 @@ public class MainLogic : MonoBehaviour
     private bool isPaused = false;
     private GameObject pauseUIInstance;
 
+    private float TimeScalef = 1f;
+
     void Start()
     {
         hp = maxHP;
         timer = countdownTime;
-        Time.timeScale = 1f;
+        Time.timeScale = TimeScalef;
     }
 
     void Update()
@@ -46,8 +48,11 @@ public class MainLogic : MonoBehaviour
 
     public void AddScore()
     {
+        TimeScalef += 0.5f;
         score += 1;
         Debug.Log($"Score: {score}");
+        Time.timeScale = TimeScalef;
+        timer += TimeScalef * 10;
     }
 
     public void GetDamage()
@@ -55,9 +60,9 @@ public class MainLogic : MonoBehaviour
         hp -= 1;
         Debug.Log($"HP: {hp}");
 
-        if (hp < 0)
+        if (hp <= 0)
         {
-            ShowGameOverUI();
+            SceneManager.LoadScene("TitleScreen");
         }
     }
 
@@ -81,7 +86,7 @@ public class MainLogic : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 1f;
+            Time.timeScale = TimeScalef;
 
             if (pauseUIInstance != null)
             {

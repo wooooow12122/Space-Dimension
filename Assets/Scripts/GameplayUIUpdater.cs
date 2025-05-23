@@ -11,7 +11,7 @@ public class GameplayUIUpdater : MonoBehaviour
 
     void Start()
     {
-        mainLogic = FindObjectOfType<MainLogic>();
+        mainLogic = FindAnyObjectByType<MainLogic>();
     }
 
     void Update()

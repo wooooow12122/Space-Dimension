@@ -42,9 +42,16 @@ public class EnemyClass : MonoBehaviour
     {
         if (!isHit && other.CompareTag("Bullet"))
         {
-            FindObjectOfType<MainLogic>()?.AddScore();
+            FindAnyObjectByType<MainLogic>()?.AddScore();
             isHit = true;
             StartCoroutine(FlashRedAndDestroy());
+        }
+
+        //Remove enemy when touched with player to prevent Player colliding with Enemy
+        if (other.CompareTag("Player"))
+        {
+            FindAnyObjectByType<MainLogic>()?.GetDamage();
+            Destroy(gameObject);
         }
     }
 
@@ -53,6 +60,8 @@ public class EnemyClass : MonoBehaviour
         float duration = 0.9f;
         float timer = 0f;
         bool toggle = false;
+
+        FindAnyObjectByType<MainLogic>()?.GetDamage();
 
         while (timer < duration)
         {
@@ -65,6 +74,8 @@ public class EnemyClass : MonoBehaviour
             timer += 0.15f;
             yield return new WaitForSeconds(0.15f);
         }
+
+        
 
         Destroy(gameObject);
     }
